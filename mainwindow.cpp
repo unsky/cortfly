@@ -4,17 +4,19 @@
 #include<QtNetwork>
 #include<QDesktopWidget>
 #include<QTcpServer>
+QString userid;
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
+
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     msgr = new Messenger(this);//消息管理器 转到messager
- qDebug()<<"3333";
+
 
     connect(msgr, SIGNAL(peersUpdated()), this , SLOT(onUpdateList()));//好友更新
     connect(msgr, SIGNAL(receivedPM(QString,QString)), this, SLOT(onReceivedPM(QString,QString)));//好友聊天接收消息
-
+   // connect(this, SIGNAL(sendtarget(QString)), msgr, SLOT(gettarget(QString)));
     msgr->setName(QHostInfo::localHostName());//给me赋予名字
     ui->lblWelcome->setText( msgr->Name());//显示
     msgr->start();//开始广播
@@ -36,9 +38,9 @@ void MainWindow::onUpdateList()
 
 void MainWindow::on_listUsers_doubleClicked(const QModelIndex &index)
 {
-    QString userid = ui->listUsers->currentItem()->text();
-
+     userid = ui->listUsers->currentItem()->text();
     makePMWindow(userid);
+
 
 }
 
@@ -62,7 +64,10 @@ PMWindow* MainWindow::makePMWindow(QString title)
     }
 }
 
-
+void MainWindow::getFileName(QString name)
+{
+   msgr->sendfile(name,userid);
+}
 
 void MainWindow::onPMSend(QString text)
 {
@@ -110,8 +115,5 @@ void MainWindow::onsetimage(QString filename)
 
 }
 
-void MainWindow::getfileName(QString)
-{
 
-}
 

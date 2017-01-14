@@ -1,5 +1,7 @@
 #ifndef TCPSERVER_H
 #define TCPSERVER_H
+#include "messenger.h"
+#include "mainwindow.h"
 
 #include <QDialog>
 
@@ -7,6 +9,8 @@
 class QFile;
 class QTcpServer;
 class QTcpSocket;
+
+
 
 namespace Ui {
 class TcpServer;
@@ -44,6 +48,8 @@ private:
     QTcpSocket *clientConnection;
 
     QTime time;
+     Messenger* messenge;
+     MainWindow *ma;
 
 private slots:
     void sendMessage();

@@ -19,8 +19,8 @@ TcpServer::TcpServer(QWidget *parent) :
     tcpPort = 6666;
     tcpServer = new QTcpServer(this);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(sendMessage()));
-
-
+       ma =new MainWindow(this);
+      connect(this,SIGNAL(sendFileName(QString)),ma,SLOT(getFileName(QString)));
     initServer();
 }
 

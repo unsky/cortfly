@@ -14,6 +14,7 @@ public:
     QHostAddress Host;
     QTime Lastseen;
     QString ID();
+    QString target;
     
 };
 

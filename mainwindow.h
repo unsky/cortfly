@@ -36,11 +36,12 @@ private slots:
     void onReceivedPM(QString from, QString text);
     void on_nichnameButton_clicked();
     void onsetimage(QString filename);
-    void getfileName(QString);
+    void getFileName(QString name);
 protected:
     void hasPendingFile(QString name);
 signals:
-    void target(QString);
+    //void target(QString);
+    void sendtarget(QString userid);
 
 private:
     Ui::MainWindow *ui;
@@ -50,7 +51,7 @@ private:
     QMap<QString, RoomWindow*> rms;
     PMWindow* makePMWindow(QString title);
     QString fileName;
-TcpServer * ser;
+
 };
 
 #endif // MAINWINDOW_H

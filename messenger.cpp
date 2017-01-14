@@ -14,10 +14,9 @@ Messenger::Messenger(QObject *parent) :
 {
     connect(&_timerdiscovery, SIGNAL(timeout()), this, SLOT(onTimerdiscovery()));
      connect(&_udp, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
- ser=new TcpServer();
-  connect(ser,SIGNAL(sendFileName(QString)),this,SLOT(getFileName(QString)));
 
-  getFileName(QString name);
+
+
     _myips = QNetworkInterface::allAddresses();
 }
 void Messenger::start()
@@ -72,7 +71,8 @@ void Messenger::onReadyRead()
         }
     }
 }
-//发送文件名
+
+
 
 
 
@@ -165,10 +165,17 @@ void Messenger::processTheDatagram(QByteArray data, QHostAddress sender)
         emit receivedPM(from, text);
     }
     if(packet[2]=="filename")
-    {
+    { QHostAddress targetadr;
         QString from = packet[3];
         QString filename = packet[4];
-        haspendingfile(from,filename);
+        for(int i=0; i<_peers.count(); i++)
+        {
+            if(_peers[i].ID() == from)
+                targetadr = _peers[i].Host;
+
+       }
+       haspendingfile(targetadr,filename);
+
 
     }
 
@@ -176,7 +183,6 @@ void Messenger::processTheDatagram(QByteArray data, QHostAddress sender)
 
 void Messenger::sendPM(QString text, QString to)
 {
-    target=to;
     QHostAddress adr;
     for(int i=0; i<_peers.count(); i++)
     {
@@ -187,22 +193,33 @@ void Messenger::sendPM(QString text, QString to)
   //  logSent(packet, adr);
     _udp.writeDatagram(packet.toUtf8(), adr, 2880);
 }
+void Messenger::sendfile(QString text, QString to)
+{
+    QHostAddress adr;
+    for(int i=0; i<_peers.count(); i++)
+    {
+        if(_peers[i].ID() == to)
+            adr = _peers[i].Host;
+    }
+   QString packet = PCK_HEADER "filename:" + _me.ID() + ":" + text;
+   //logSent(packet, adr);
+    _udp.writeDatagram(packet.toUtf8(), adr, 2880);
+}
 
-void Messenger::haspendingfile(QString clientid, QString fileName)
+void Messenger::haspendingfile(QHostAddress clientid, QString fileName)
 {
  //   int btn=QMessageBox::information( ,"接收文件","来自的文件，是否接收？" ,QMessageBox::Yes,QMessageBox::No);
 
-
+\
         QString name=QFileDialog::getSaveFileName(0,"保存文件",fileName);
       TcpClient   *client=new TcpClient();
+      client->setFileName(fileName);
+      client->setHostAddress(QHostAddress(clientid));
         client->show();
 
 
 }
-void Messenger::getFileName(QString name)
-{
-    qDebug()<<"11111"<<name;
-}
+
 
 
 
