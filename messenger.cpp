@@ -9,12 +9,12 @@
 #include<QFileDialog>
 #include<QMessageBox>
 #include"mainwindow.h"
+#include<QLabel>
 Messenger::Messenger(QObject *parent) :
     QObject(parent)
 {
     connect(&_timerdiscovery, SIGNAL(timeout()), this, SLOT(onTimerdiscovery()));
      connect(&_udp, SIGNAL(readyRead()), this, SLOT(onReadyRead()));
-
 
 
     _myips = QNetworkInterface::allAddresses();
@@ -71,10 +71,6 @@ void Messenger::onReadyRead()
         }
     }
 }
-
-
-
-
 
 
 void Messenger::log(QString data, QString dest, bool isSent)
@@ -174,7 +170,14 @@ void Messenger::processTheDatagram(QByteArray data, QHostAddress sender)
                 targetadr = _peers[i].Host;
 
        }
-       haspendingfile(targetadr,filename);
+       haspendingfile(targetadr,from,filename);
+
+
+    }
+    if(packet[2]=="refused")
+    {ser=new TcpServer();
+   ser->close();
+        delete ser;
 
 
     }
@@ -206,16 +209,31 @@ void Messenger::sendfile(QString text, QString to)
     _udp.writeDatagram(packet.toUtf8(), adr, 2880);
 }
 
-void Messenger::haspendingfile(QHostAddress clientid, QString fileName)
+void Messenger::haspendingfile(QHostAddress clientid,QString from, QString fileName)
 {
- //   int btn=QMessageBox::information( ,"接收文件","来自的文件，是否接收？" ,QMessageBox::Yes,QMessageBox::No);
 
-\
+pmw=new PMWindow();
+ int btn=QMessageBox::information(pmw,"接收文件",tr("来自%1的文件%2").arg(from).arg(fileName) ,QMessageBox::Yes);
+ if (btn==QMessageBox::Yes)
+ {
+
         QString name=QFileDialog::getSaveFileName(0,"保存文件",fileName);
       TcpClient   *client=new TcpClient();
       client->setFileName(fileName);
+
       client->setHostAddress(QHostAddress(clientid));
+      client->setWindowIcon(QIcon(":/send.png"));
         client->show();
+
+}
+/*
+ else
+ {
+    QString packet = PCK_HEADER "refused:" + _me.ID();
+    _udp.writeDatagram(packet.toUtf8(), clientid, 2880);
+
+ }
+*/
 
 
 }

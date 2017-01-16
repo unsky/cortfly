@@ -3,6 +3,7 @@
 #include "ui_pmwindow.h"
 #include<tcpserver.h>
 #include<QTime>
+#include<QColorDialog>
 
 PMWindow::PMWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -54,4 +55,48 @@ void PMWindow::on_toolButton_3_clicked()
    TcpServer *sendwin=new TcpServer(this);
    sendwin->show();
 
+}
+
+
+void PMWindow::on_fontComboBox_currentFontChanged(const QFont &f)
+{
+    ui->txtInput->setCurrentFont(f);
+    ui->txtInput->setFocus();
+}
+
+void PMWindow::on_comboBox_currentIndexChanged(const QString &arg1)
+{
+    ui->txtInput->setFontPointSize(arg1.toDouble());
+    ui->txtInput->setFocus();
+}
+
+//加粗
+
+void PMWindow::on_toolButton_4_clicked(bool checked)
+{
+    if(checked)
+    ui->txtInput->setFontWeight(QFont::Bold);
+    else
+       ui->txtInput->setFontWeight(QFont::Normal);
+    ui->txtInput->setFocus();
+
+}
+//斜体
+void PMWindow::on_toolButton_clicked(bool checked)
+{
+    ui->txtInput->setFontItalic(checked);
+    ui->txtInput->setFocus();
+
+}
+
+
+void PMWindow::on_toolButton_2_clicked()
+{
+  QColor color  =QColorDialog::getColor(color,this);
+
+ if(color.isValid())
+ {ui->txtInput->setTextColor(color);
+     ui->txtInput->setFocus();
+
+ }
 }

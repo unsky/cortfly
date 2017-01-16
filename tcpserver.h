@@ -25,7 +25,8 @@ public:
     ~TcpServer();
 
     void initServer();
-    void refused();
+
+void refused();
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -46,10 +47,10 @@ private:
     QByteArray outBlock;
 
     QTcpSocket *clientConnection;
-
     QTime time;
-     Messenger* messenge;
-     MainWindow *ma;
+     Messenger *messenge;
+
+     //MainWindow *ma;
 
 private slots:
     void sendMessage();
@@ -61,6 +62,7 @@ private slots:
 
     void on_serverCloseBtn_clicked();
     //  void getFileName(QString name);
+
 
 signals:
     void sendFileName(QString fileName);

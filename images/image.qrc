@@ -1,0 +1,25 @@
+<RCC>
+    <qresource prefix="/">
+        <file>bold.png</file>
+        <file>clear.png</file>
+        <file>color.png</file>
+        <file>image.qrc</file>
+        <file>italic.png</file>
+        <file>main.png</file>
+        <file>save.png</file>
+        <file>send.png</file>
+        <file>skin.png</file>
+        <file>under.png</file>
+        <file>skin1.png</file>
+        <file>skin2.png</file>
+        <file>my.JPG</file>
+        <file>skin4.png</file>
+        <file>background.png</file>
+        <file>background1.png</file>
+        <file>skin3.png</file>
+        <file>lab.png</file>
+        <file>ser.png</file>
+        <file>ziliao.png</file>
+        <file>C:/Users/cs_unsky/Desktop/TB2ILCkcNuI.eBjy0FdXXXgbVXa_!!1905192728.jpg</file>
+    </qresource>
+</RCC>

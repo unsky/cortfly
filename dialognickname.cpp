@@ -1,7 +1,7 @@
 #include "dialognickname.h"
 #include "ui_dialognickname.h"
 #include<QFileDialog>
-
+#include<QDebug>
 
 DialogNickName::DialogNickName(QWidget *parent) :
     QDialog(parent),
@@ -31,6 +31,8 @@ void DialogNickName::on_touxiangButton_clicked()
     {
             ui->touxiangButton->setIcon(QIcon(fileName));
              emit setImage(fileName);
+            qDebug()<<fileName;
+            this->deleteLater();
 }
 
 }

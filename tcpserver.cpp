@@ -19,14 +19,16 @@ TcpServer::TcpServer(QWidget *parent) :
     tcpPort = 6666;
     tcpServer = new QTcpServer(this);
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(sendMessage()));
-       ma =new MainWindow(this);
-      connect(this,SIGNAL(sendFileName(QString)),ma,SLOT(getFileName(QString)));
+    MainWindow* ma =new MainWindow(this);
+       connect(this,SIGNAL(sendFileName(QString)),ma,SLOT(getFileName(QString)));
+
     initServer();
 }
 
 TcpServer::~TcpServer()
 {
     delete ui;
+
 }
 
 // 初始化
@@ -133,6 +135,7 @@ void TcpServer::on_serverSendBtn_clicked()
     ui->serverStatusLabel->setText(tr("等待对方接收... ..."));
 
     emit sendFileName(theFileName);
+
 }
 
 // 关闭按钮
@@ -153,12 +156,14 @@ void TcpServer::on_serverCloseBtn_clicked()
 // 被对方拒绝
 void TcpServer::refused()
 {
-    tcpServer->close();
-    ui->serverStatusLabel->setText(tr("对方拒绝接收！！！"));
+ ui->serverStatusLabel->setText("对方拒绝接收！！！");
+qDebug() << tcpServer->errorString();
+
+
 }
 
 // 关闭事件
 void TcpServer::closeEvent(QCloseEvent *)
 {
-    on_serverCloseBtn_clicked();
+   on_serverCloseBtn_clicked();
 }

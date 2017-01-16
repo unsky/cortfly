@@ -36,6 +36,13 @@ private slots:
     void on_txtInput_returnPressed();
     void on_toolButton_3_clicked();
 
+
+    void on_fontComboBox_currentFontChanged(const QFont &f);
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+    void on_toolButton_4_clicked(bool checked);
+    void on_toolButton_clicked(bool checked);
+
+    void on_toolButton_2_clicked();
 };
 
 #endif // PMWINDOW_H
